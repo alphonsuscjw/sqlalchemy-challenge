@@ -96,7 +96,7 @@ def stations():
 
     return jsonify(all_stations)
 
-# Tobs route that returns jsonified data for the most active station (USC00519281) for the last year in the database
+# Tobs route that returns the last 12 months of temperatures recorded by the most active station (USC00519281) in the database
 @app.route("/api/v1.0/tobs")
 def tobs():
     # Create our session (link) from Python to the DB
@@ -127,8 +127,8 @@ def start_only(start):
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    """Return the minimum, average and maximum temperatures calculated from a specified start date to the end of the dataset"""
-    # Query and calculate the minimum, average and maximum temperatures from a specified start date to the end of the dataset
+    """Return the minimum, average and maximum temperatures calculated from the user-input start date to the end of the dataset"""
+    # Query and calculate the minimum, average and maximum temperatures from the user-input start date to the end of the dataset
     results = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
         filter(Measurement.date >= start).all()
 
@@ -152,8 +152,8 @@ def start_end(start,end):
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    """Return the minimum, average and maximum temperatures calculated from a specified start date to a specified end date"""
-    # Query and calculate the minimum, average and maximum temperatures from a specified start date to a specified end date
+    """Return the minimum, average and maximum temperatures calculated from the user-input start date to the user-input end date"""
+    # Query and calculate the minimum, average and maximum temperatures from the user-input start date to the user-input end date
     results = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
         filter((Measurement.date >= start) & (Measurement.date <= end)).all()
 
